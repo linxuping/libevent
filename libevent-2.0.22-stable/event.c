@@ -1622,6 +1622,7 @@ event_base_loop(struct event_base *base, int flags)
 
 		clear_time_cache(base);
 
+    //调用select_dispatch(),它会将已经准备好的事件移到已就绪事件队列中
 		res = evsel->dispatch(base, tv_p);
 
 		if (res == -1) {
@@ -1767,6 +1768,7 @@ event_assign(struct event *ev, struct event_base *base, evutil_socket_t fd, shor
 		}
 	}
 
+  //min_heap_idx和ev_timeout，如果是timeout事件，他们是event在小根堆中的索引和超时值.
 	min_heap_elem_init(ev);
 
 	if (base != NULL) {
